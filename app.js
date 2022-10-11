@@ -91,17 +91,45 @@ var upload = multer({
 app.get("/", function(req, res){
   if (req.isAuthenticated()){
     if(req.user.Role=="Patient"){
-      res.render("home", {loggedIn: 1, page: 1});
+      information.find({}, function (err, doctor) {
+        if (err){
+          console.log(err);
+        }
+        else{
+          res.render("home", {loggedIn: 1, page: 1, doctor: doctor});
+        }
+      });
     }
     else if(req.user.Role=="Doctor"){
-      res.render("home", {loggedIn: 2, page: 1});
+      information.find({}, function (err, doctor) {
+        if (err){
+          console.log(err);
+        }
+        else{
+          res.render("home", {loggedIn: 2, page: 1, doctor: doctor});
+        }
+      });
     }
     else{
-      res.render("home", {loggedIn: 3, page: 1});
+      information.find({}, function (err, doctor) {
+        if (err){
+          console.log(err);
+        }
+        else{
+          res.render("home", {loggedIn: 3, page: 1, doctor: doctor});
+        }
+      });
     }
   } 
   else{
-    res.render("home", {loggedIn: 0, page: 1});
+    information.find({}, function (err, doctor) {
+      if (err){
+        console.log(err);
+      }
+      else{
+        res.render("home", {loggedIn: 0, page: 1, doctor: doctor});
+      }
+    });
   }
 });
 
