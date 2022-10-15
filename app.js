@@ -3,6 +3,7 @@ const ROOM_ID = "83a356a2-756f-45a6-9408-51e5ae8eba19"
 
 const mongoose = require("mongoose");
 const express = require("express");
+const path = require("path")
 require('dotenv').config();
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -22,6 +23,7 @@ const app = express();
 
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -412,6 +414,19 @@ app.post('/video-call', (req, res) => {
   }  
 })
 
+app.get('/activities', function(req, res) {
+
+  if(req.isAuthenticated()){
+    const activityId = req.query.activityId;
+    res.render('activity', { activityId : activityId, page : 3, loggedIn : 1 })
+  }
+  else {
+    res.redirect("/login");
+  }
+ 
+})
+
 app.listen(3000, function() {
   console.log("Server started on port 3000.");
+  console.log("Go to http://localhost:3000")
 });
