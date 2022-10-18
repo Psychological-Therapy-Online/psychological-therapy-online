@@ -671,9 +671,9 @@ label.radio input:checked + span {
     function Answer(){
         let result=0;
         input=document.getElementsByTagName("input");
-        label=document.getElementsByTagName("label");
         for(let i=0;i<120;i++){
-            if(label[i].style.backgroundColor=="dodgerblue"){
+            if(input[i].checked){
+                console.log("Inside");
                 result+=Number(input[i].value);
             }
         }
