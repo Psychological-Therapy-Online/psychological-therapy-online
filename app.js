@@ -3,6 +3,7 @@ const ROOM_ID = "83a356a2-756f-45a6-9408-51e5ae8eba19"
 
 const mongoose = require("mongoose");
 const express = require("express");
+const path = require("path")
 require('dotenv').config();
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -22,6 +23,7 @@ const app = express();
 
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -56,12 +58,21 @@ const informationSchema = new mongoose.Schema({
     imagename: String,
     Rating: Number
   });
+const patientSchema = new mongoose.Schema({
+    ID: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    Room_no: Number,
+    Result: Number
+  });
 
 userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
 
 const User = new mongoose.model("User", userSchema);
 const information = new mongoose.model("information", informationSchema);
+const patient = new mongoose.model("patient", patientSchema);
 
 passport.use(User.createStrategy());
 passport.serializeUser(function(user, done) {
@@ -91,17 +102,45 @@ var upload = multer({
 app.get("/", function(req, res){
   if (req.isAuthenticated()){
     if(req.user.Role=="Patient"){
-      res.render("home", {loggedIn: 1, page: 1});
+      information.find({}, function (err, doctor) {
+        if (err){
+          console.log(err);
+        }
+        else{
+          res.render("home", {loggedIn: 1, page: 1, doctor: doctor});
+        }
+      });
     }
     else if(req.user.Role=="Doctor"){
-      res.render("home", {loggedIn: 2, page: 1});
+      information.find({}, function (err, doctor) {
+        if (err){
+          console.log(err);
+        }
+        else{
+          res.render("home", {loggedIn: 2, page: 1, doctor: doctor});
+        }
+      });
     }
     else{
-      res.render("home", {loggedIn: 3, page: 1});
+      information.find({}, function (err, doctor) {
+        if (err){
+          console.log(err);
+        }
+        else{
+          res.render("home", {loggedIn: 3, page: 1, doctor: doctor});
+        }
+      });
     }
   } 
   else{
-    res.render("home", {loggedIn: 0, page: 1});
+    information.find({}, function (err, doctor) {
+      if (err){
+        console.log(err);
+      }
+      else{
+        res.render("home", {loggedIn: 0, page: 1, doctor: doctor});
+      }
+    });
   }
 });
 
@@ -114,7 +153,10 @@ app.get("/login", function(req, res){
 app.get("/register", function(req, res){
   if (!(req.isAuthenticated())){
     res.render("register", {loggedIn: 0, page: 4});
-  } 
+  }
+  else{
+    res.redirect("/");
+  }
 });
 
 app.get("/about", function(req, res){
@@ -213,6 +255,17 @@ app.get("/detail", function(req, res){
   }
 });
 
+app.get("/questionnaire", function(req, res){
+  if (req.isAuthenticated()){
+    if(req.user.Role=="Patient"){
+      res.render("questionnaire", {loggedIn: 1, page: 11});
+    }
+  } 
+  else{
+    res.redirect("/");
+  }
+});
+
 app.get("/Review/:id", async function(req, res){
   id_product = req.params.id;
   let doctor = await information.find({_id: req.params.id})
@@ -258,7 +311,21 @@ app.get("/secrets", function(req, res){
         if (err){console.log(err);}
         else{
           if(foundUser){
-              res.redirect("/");
+            patient.updateOne({ID: ID}, {ID: ID}, {upsert: true}, function(error){
+              if(error){console.log(error);}else{console.log("Sucessfully updated");};
+              patient.find({ID:ID}, function (err, patients) {
+                if (err){
+                  console.log(err);
+                }
+                else{
+                  console.log(patients);
+                  if(patients[0].Result==undefined)
+                    res.redirect("/questionnaire");
+                  else
+                    res.redirect("/");
+                }
+              }); 
+            });
           }
         }
     });
@@ -327,9 +394,85 @@ app.post("/register", function(req, res){
   console.log(req.body.Role);
   User.register({username: req.body.username, Role: req.body.Role}, req.body.password, function(err, user){
       if (err) {console.log(err);res.redirect("/register");}
-      else{passport.authenticate("local")(req, res, function(){res.redirect("/secrets");});
+      else{passport.authenticate("local")(req, res, function(){
+        res.redirect("/secrets");
+      });
     }
   });
+});
+
+app.post("/questionnaire", function(req, res){
+  if (req.isAuthenticated()){
+    if(req.user.Role=="Patient"){
+        let result=0;
+        if(req.body.AA)
+        result+=Number(req.body.AA);
+        if(req.body.AB)
+        result+=Number(req.body.AB);
+        if(req.body.AC)
+        result+=Number(req.body.AC);
+        if(req.body.AD)
+        result+=Number(req.body.AD);
+        if(req.body.AE)
+        result+=Number(req.body.AE);
+        if(req.body.AF)
+        result+=Number(req.body.AF);
+        if(req.body.AG)
+        result+=Number(req.body.AG);
+        if(req.body.AH)
+        result+=Number(req.body.AH);
+        if(req.body.AI)
+        result+=Number(req.body.AI);
+        if(req.body.AJ)
+        result+=Number(req.body.AJ);
+        if(req.body.AK)
+        result+=Number(req.body.AK);
+        if(req.body.AL)
+        result+=Number(req.body.AL);
+        if(req.body.AM)
+        result+=Number(req.body.AM);
+        if(req.body.AN)
+        result+=Number(req.body.AN);
+        if(req.body.AO)
+        result+=Number(req.body.AO);
+        if(req.body.AP)
+        result+=Number(req.body.AP);
+        if(req.body.AQ)
+        result+=Number(req.body.AQ);
+        if(req.body.AR)
+        result+=Number(req.body.AR);
+        if(req.body.AS)
+        result+=Number(req.body.AS);
+        if(req.body.AT)
+        result+=Number(req.body.AT);
+        if(req.body.AU)
+        result+=Number(req.body.AU);
+        if(req.body.AV)
+        result+=Number(req.body.AV);
+        if(req.body.AW)
+        result+=Number(req.body.AW);
+        if(req.body.AX)
+        result+=Number(req.body.AX);
+        if(req.body.AY)
+        result+=Number(req.body.AY);
+        if(req.body.AZ)
+        result+=Number(req.body.AZ);
+        if(req.body.BA)
+        result+=Number(req.body.BA);
+        if(req.body.BB)
+        result+=Number(req.body.BB);
+        if(req.body.BC)
+        result+=Number(req.body.BC);
+        if(req.body.BD)
+        result+=Number(req.body.BD);
+        result=(result-30)/90;
+        patient.updateOne({ ID: ID}, {Result: result}, { upsert: true }, function(error){if(error){console.log(error);}else{console.log("Sucessfully updated");};});
+      }
+      res.redirect("/");
+  } 
+  else{
+    res.redirect("/");
+  }
 });
 
 app.post("/doctor", upload, function(req, res){
@@ -382,8 +525,21 @@ app.post('/video-call', (req, res) => {
     const room_url = 'https://localhost:4000/' + ROOM_ID
     res.redirect(room_url)
   }  
-})
+});
+
+app.get('/activities', function(req, res) {
+
+  if(req.isAuthenticated()){
+    const activityId = req.query.activityId;
+    res.render('activity', { activityId : activityId, page : 3, loggedIn : 1 })
+  }
+  else {
+    res.redirect("/login");
+  }
+ 
+});
 
 app.listen(3000, function() {
   console.log("Server started on port 3000.");
+  console.log("Go to http://localhost:3000")
 });
