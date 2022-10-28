@@ -8,18 +8,22 @@
         </div>
         <div class="row">
         <%for(let i=0;i!=doctor.length;i++){ console.log(doctor[i])%>
-            <div class="col-lg-4 col-md-6 pb-4">
+            <div class="col-lg-4 col-md-6 pb-4" style="box-shadow: 5px 5px 10px lightgray;">
                 <a class="courses-list-item position-relative d-block overflow-hidden mb-2" style="text-decoration: none;" href="/detail">
                     <img class="img-fluid" src="<%-doctor[i].imagename%>" alt=""/>
                     <div class="courses-text">
                         <h4 class="text-center" style="color: rgb(29, 130, 238);">Psychlologist</h4>
-                        <span class="text-Blue"><i class="fa fa-user mr-2"></i><%-doctor[i].Name%></span>
-                        <span class="text-Blue"><i class="fa fa-star mr-2"></i><%-doctor[i].Rating%></span>
+                        <div class="info text-center">
+                            <span class="text-Blue"><i class="fa fa-user mr-2"></i><%-doctor[i].Name%></span>
+                            <span class="text-Blue"><i class="fa fa-star mr-2"></i><%-doctor[i].Rating%></span>
+
+                        </div>
                         <br>
-                        <form action="/sign-up-therapy/<%= doctor[i].ID  %>" method="POST" style="display: inline-block;">
-                            <button class="btn btn-dark" type="submit">Pay</button>
+                        <form action="" method="POST" style="display: inline-block;">
+                            <!-- <button class="btn btn-dark" type="submit">Pay</button> -->
                         </form>
-                        <a class="btn btn-dark" href="/Review/<%-doctor[i]._id%>">Review</a>
+                        <!-- <div></div> -->
+                        <a class="btn btn-dark" href="" style="display: none;"></a>
                     </div>
                 </a>
             </div>

@@ -23,7 +23,7 @@
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -78,46 +78,37 @@
                     <%if(page!=2){%>
                         <a href="/about" class="nav-item nav-link">About</a>
                     <%}%>
-                    <%if(page==3&&loggedIn!=0){%>
+                    <%if(page==3&&loggedIn!=0&&loggedIn!=3){%>
                         <a href="/course" class="nav-item nav-link active">Activities</a>
                     <%}%>
-                    <%if(page!=3&&loggedIn!=0){%>
+                    <%if(page!=3&&loggedIn!=0&&loggedIn!=3){%>
                         <a href="/course" class="nav-item nav-link">Activities</a>
                     <%}%>
                     <%if(page==9&&loggedIn==2){%>
-                        <a href="/doctor" class="nav-item nav-link active">Details</a>
+                        <a href="/doctor" class="nav-item nav-link active">Profile</a>
                     <%}%>
                     <%if(page!=9&&loggedIn==2){%>
-                        <a href="/doctor" class="nav-item nav-link">Details</a>
+                        <a href="/doctor" class="nav-item nav-link">Profile</a>
                     <%}%>
-                    <%if(page==6||page==7){%>
-                        <div class="nav-item dropdown active">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu m-0">
-                                <a href="/feature" class="dropdown-item">Our Features</a>
-                                <a href="/team" class="dropdown-item">Doctors</a>
-                            </div>
-                        </div>
+                    <%if(loggedIn==2){%>
+                        <a href="/therapies-doctor" class="nav-item nav-link">Patients</a>
                     <%}%>
-                    <%if(page!=6&&page!=7){%>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu m-0">
-                                <a href="/feature" class="dropdown-item">Our Features</a>
-                                <a href="/team" class="dropdown-item">Doctors</a>
-                            </div>
-                        </div>
-                    <%}%>
-                    <% if(loggedIn) {%>
-                        <form action="/video-call" method="POST">
-                            <button type="submit" class="nav-item nav-link btn" style="background-color: rgb(68, 183, 222);">Join Call</a>
-                        </form>
+                    <% if(loggedIn==2){ %>
+                        <a href="/team" class="nav-item nav-link">Doctors</a>
+                    <% } %> 
+                    <% if(loggedIn==1){ %>
+                        <a href="/therapy-patient" class="nav-item nav-link">Therapy</a>
+                    <% } %> 
+                    <% if(loggedIn == 2 || loggedIn == 3) {%> 
+                        <a href="/reports" class="nav-item nav-link <%= page == 13 ? "active"  : ""  %> ">Reports</a>
                     <% } %> 
                 </div>
                 <%if(loggedIn!=0){%>
                     <a href="/logout" class="nav-link" style="background-color: rgb(29, 130, 238); color: white;">Logout</a>    
                 <%}%>
-                <%if(loggedIn==0){%>
+                <%if(loggedIn==0){%>  
+                    <a href="/login" class="nav-item nav-link">Login</a>
+
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link" style="background-color: rgb(29, 130, 238); color: white;" data-toggle="dropdown">Join us</a>
                         <div class="dropdown-menu m-0">
@@ -161,7 +152,7 @@
                 <h1 class="text-white display-1 mb-5">Activity Deatils</h1>
             <%}%>
             <%if(page==9&&loggedIn==2){%>
-                <h1 class="text-white display-1 mb-5">Doctor Details</h1>
+                <h1 class="text-white display-1 mb-5">Your Profile</h1>
             <%}%>
             <%if(page==10&&loggedIn==1){%>
                 <h1 class="text-white display-1 mb-5">Review</h1>
@@ -169,6 +160,12 @@
             <%if(page==11&&loggedIn==1){%>
                 <h1 class="text-white display-1 mb-5">Questionnaire</h1>
             <%}%>
+            <%if(page==12){%>
+                <h1 class="text-white display-1 mb-5">Therapy</h1>
+            <%}%>
+            <% if(page == 13) {%>                
+                <h1 class="text-white display-1 mb-5">Reports</h1>
+            <% } %> 
         </div>
     </div>
     <!-- Header End -->
