@@ -991,12 +991,12 @@ app.post("/video-call", (req, res) => {
 });
 
 app.get("/activities", function (req, res) {
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() && req.user.Role != "Student") {
         const activityId = req.query.activityId;
         res.render("activity", {
             activityId: activityId,
             page: 3,
-            loggedIn: 1,
+            loggedIn: (req.user.Role == "Doctor" ? 2 : 1),
         });
     } else {
         res.redirect("/login");

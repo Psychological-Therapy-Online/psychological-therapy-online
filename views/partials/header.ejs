@@ -91,10 +91,10 @@
                         <a href="/doctor" class="nav-item nav-link">Profile</a>
                     <%}%>
                     <%if(loggedIn==2){%>
-                        <a href="/therapies-doctor" class="nav-item nav-link">Patients</a>
+                        <a href="/therapies-doctor" class="nav-item nav-link <%= page == 12 ? "active" : "" %> ">Patients</a>
                     <%}%>
                     <% if(loggedIn==2){ %>
-                        <a href="/team" class="nav-item nav-link">Doctors</a>
+                        <a href="/team" class="nav-item nav-link <%= page == 7 ? "active"  : ""  %>">Doctors</a>
                     <% } %> 
                     <% if(loggedIn==1){ %>
                         <a href="/therapy-patient" class="nav-item nav-link">Therapy</a>
