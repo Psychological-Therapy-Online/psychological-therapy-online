@@ -43,7 +43,9 @@ app.use(passport.session());
 
 app.use(express.static("public/img"));
 
-mongoose.connect("mongodb://localhost:27017/userDB", { useNewUrlParser: true });
+const url = 'mongodb+srv://rakshith:rakshith2107@cluster0.v2kuy.mongodb.net/userDB?retryWrites=true&w=majority'
+
+mongoose.connect(url, { useNewUrlParser: true }).then(() => console.log('Connected successfully'));
 
 const userSchema = new mongoose.Schema({
     name: String,
