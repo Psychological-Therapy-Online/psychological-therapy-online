@@ -82,7 +82,7 @@
                                     <% if(session.Status == "Completed") {%>
                                         <span class="<%= (session.Status == "Completed" ? " badge  badge-primary" : "") %> "> Completed</span>
                                     <% } else {%>
-                                        <a class="btn btn-warning" href='https://13.232.89.159:4000/83a356a2-756f-45a6-9408-51e5ae8eba19'>Join call</a>
+                                        <a class="btn btn-warning" href='https://ec2-35-154-125-15.ap-south-1.compute.amazonaws.com:4000/<%= session._id %>'>Join call</a>
                                     <% } %>
 
                                 </span>
